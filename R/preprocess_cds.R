@@ -114,6 +114,7 @@ preprocess_cds <- function(cds, method = c('PCA', "LSI"),
   } else if(method == "LSI") {
 
     preproc_res <- tfidf(FM)
+    num_col <- ncol(preproc_res)
     irlba_res <- irlba::irlba(Matrix::t(preproc_res),
                               nv = min(num_dim,min(dim(FM)) - 1))
 
@@ -122,7 +123,7 @@ preprocess_cds <- function(cds, method = c('PCA', "LSI"),
 
     irlba_rotation = irlba_res$v
     row.names(irlba_rotation) = rownames(FM)
-    cds@preprocess_aux$gene_loadings = irlba_rotation %*% diag( irlba_res$d/sqrt( max(1, ncol(preproc_res) - 1) ) )
+    cds@preprocess_aux$gene_loadings = irlba_rotation %*% diag( irlba_res$d/sqrt( max(1, num_col - 1) ) )
 
   }
 
