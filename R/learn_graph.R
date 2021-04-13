@@ -691,7 +691,6 @@ project2MST <- function(cds, Projection_Method, orthogonal_proj_tip = FALSE,
       nearest_edges[i, ] <- c(closest_vertex_names[i], neighbors[which_min])
     }
   }
-  cds
 
   colnames(P) <- colnames(Z)
 

@@ -117,7 +117,6 @@ extract_general_graph_ordering <- function(cds,
                                            reduction_method,
                                            subset_indices,
                                            centers = NULL) {
-  browser()
   Z <- t(reducedDims(cds)[[reduction_method]])
   Y <- cds@principal_graph_aux[[reduction_method]]$dp_mst
   pr_graph <- principal_graph(cds)[[reduction_method]]
