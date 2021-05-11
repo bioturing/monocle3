@@ -82,7 +82,7 @@ graph_test <- function(cds,
 
 
   wc <- spdep::spweights.constants(lw, zero.policy = TRUE, adjust.n = TRUE)
-  test_res <- pbmcapply::pbmclapply(row.names(exprs_mat)[pos.high.var],
+  test_res <- parallel::mclapply(row.names(exprs_mat)[pos.high.var],
                                     FUN = function(x, sz, alternative,
                                                    method, expression_family) {
     # exprs_val <- exprs_mat[x, ]
@@ -112,8 +112,7 @@ graph_test <- function(cds,
                  morans_I = NA)
     })
   }, sz = sz, alternative = alternative, method = method,
-  expression_family = expression_family, mc.cores=cores,
-  ignore.interactive = TRUE)
+  expression_family = expression_family, mc.cores=cores, mc.silent=TRUE)
 
   if(verbose) {
     message("returning results: ...")
