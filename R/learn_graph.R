@@ -698,6 +698,15 @@ project2MST <- function(cds, Projection_Method, orthogonal_proj_tip = FALSE,
   dp_mst_df <- NULL
   partitions <- cds@clusters[[reduction_method]]$partitions
 
+  # Delete edges between centers having cells
+  # For example: V1 -> V2 but if there is V1 -> C1 -> C2 -> V2, V1 -> V2 should be removed
+  count_edge <- igraph::get.edge.ids(cds@principal_graph[[reduction_method]], as.vector(t(nearest_edges)))
+  edge_projected <- rep(0, length(igraph::V(dp_mst)))
+  count_edge <- table(count_edge)
+  edge_projected[as.numeric(names(count_edge))] <- count_edge
+  dp_mst <- igraph::delete_edges(dp_mst, which(edge_projected != 0))
+  dp_mst_list <- list(dp_mst)
+
   # Sanity test.
   # If this fails there may be a problem with getting cell names from
   # cds@clusters[[reduction_method]]$partitions
