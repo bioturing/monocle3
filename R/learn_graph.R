@@ -698,9 +698,8 @@ project2MST <- function(cds, Projection_Method, orthogonal_proj_tip = FALSE,
   dp_mst_df <- NULL
   partitions <- cds@clusters[[reduction_method]]$partitions
 
-  # Delete edge between center have cells
-  # For example V1 -> V2 but if can replace V1 -> C1 -> C2 -> V2
-  # Need to remove edge V1 -> V2
+  # Delete edges between centers having cells
+  # For example: V1 -> V2 but if there is V1 -> C1 -> C2 -> V2, V1 -> V2 should be removed
   count_edge <- igraph::get.edge.ids(cds@principal_graph[[reduction_method]], as.vector(t(nearest_edges)))
   edge_projected <- rep(0, length(igraph::V(dp_mst)))
   count_edge <- table(count_edge)
